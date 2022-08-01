@@ -12,7 +12,7 @@ jobs:
 
       - name: Install and Build 🔧
         run: |
-          echo "VUE_APP_API_URL Today is $VUE_APP_JOOMLA_TEST!"
+          echo "$VUE_APP_API_URL Today is $VUE_APP_JOOMLA_TEST!"
           npm install
           npm run build
         env:
