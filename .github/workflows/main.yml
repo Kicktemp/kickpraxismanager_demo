@@ -11,6 +11,7 @@ jobs:
         uses: actions/checkout@v2.3.1
 
       - name: Install and Build 🔧
+          run: echo "VUE_APP_API_URL Today is $VUE_APP_JOOMLA_TEST!"
         run: |
           npm install
           npm run build
@@ -18,7 +19,7 @@ jobs:
           VUE_APP_API_URL: ${{ secrets.VUE_APP_API_URL }}
           VUE_APP_BASE_PATH: ${{ secrets.VUE_APP_BASE_PATH }}
           VUE_APP_JOOMLA_TOKEN: ${{ secrets.VUE_APP_JOOMLA_TOKEN }}
-          VUE_APP_JOOMLA_TEST: ${{ secrets.VUE_APP_JOOMLA_TEST }}
+          VUE_APP_JOOMLA_TEST: vlbu
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.5
