@@ -84,10 +84,10 @@ export default {
             <option value="0">Bitte wählen</option>
             <option
               v-for="appointment in appointments"
-              :key="appointment.attributes.appointmentid"
-              :value="appointment.attributes.appointmentid"
+              :key="appointment.attributes.id"
+              :value="appointment.attributes.id"
             >
-              {{ appointment.attributes.title }}
+              {{ appointment.attributes.name }}
             </option>
           </select>
         </div>

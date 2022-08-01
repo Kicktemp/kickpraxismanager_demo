@@ -17,6 +17,21 @@
         v-model:loading="loading"
         v-if="interest !== '' && interest != 0"
       />
+      <ResourcesSelect
+        :location="location"
+        :interest="interest"
+        v-model:resource="resource"
+        v-model:weightlocation="weightlocation"
+        v-model:showCalendar="showCalendar"
+        v-model:loading="loading"
+        v-if="appointment !== '' && appointment != 0"
+      />
+      <MeetingSelector />
+      <CustomerForm
+        v-model:customerData="customerData"
+        :customer="customer"
+        v-if="customer !== ''"
+      />
     </form>
     <table class="uk-table uk-table-divider uk-table-small uk-table-justify">
       <thead>
@@ -47,8 +62,12 @@
           <td>{{ appointment }}</td>
         </tr>
         <tr>
-          <td>Location</td>
-          <td>{{ location }}</td>
+          <td>Resource</td>
+          <td>{{ resource }}</td>
+        </tr>
+        <tr>
+          <td>CustomerData</td>
+          <td>{{ customerData }}</td>
         </tr>
         <tr>
           <td>Location</td>
@@ -75,6 +94,9 @@ import LocationsSelect from "./components/LocationsSelect";
 import NewCustomer from "./components/NewCustomer";
 import InterestsSelect from "./components/InterestsSelect";
 import AppointmentsSelect from "./components/AppointmentsSelect";
+import ResourcesSelect from "./components/ResourcesSelect";
+import CustomerForm from "./components/CustomerForm";
+import MeetingSelector from "./components/MeetingSelector";
 
 UIkit.use(Icons);
 
@@ -86,15 +108,35 @@ export default {
     NewCustomer,
     InterestsSelect,
     AppointmentsSelect,
+    ResourcesSelect,
+    CustomerForm,
+    MeetingSelector,
   },
 
   data: () => {
     return {
       location: 0,
+      weightlocation: 0,
+      showCalendar: false,
       customer: "",
       group: 0,
       interest: 0,
       appointment: 0,
+      resource: 0,
+      customerData: {
+        firstname: "",
+        lastname: "",
+        email: "",
+        privacy: false,
+        gender: 0,
+        birthday: "",
+        street: "",
+        no: "",
+        zip: "",
+        city: "",
+        phone: "",
+        mobile: "",
+      },
       loading: false,
     };
   },
@@ -109,6 +151,12 @@ export default {
       if (newCustomer != oldCustomer) {
         this.group = 0;
         this.interest = 0;
+      }
+    },
+    interest(newInterest, oldInterest) {
+      if (newInterest != oldInterest) {
+        this.appointment = 0;
+        this.resource = 0;
       }
     },
   },
