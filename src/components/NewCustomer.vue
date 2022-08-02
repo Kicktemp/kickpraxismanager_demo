@@ -22,7 +22,7 @@ export default {
 </script>
 
 <template>
-  <div class="uk-margin" :class="{ 'uk-background-primary': customer != '' }">
+  <div class="uk-margin">
     <label class="uk-form-label" for="newcustomer"
       >Planen Sie Ihren ersten Besuch oder sind sie bereits Patient bei
       uns?</label
@@ -54,7 +54,11 @@ export default {
           </div>
         </div>
         <div class="uk-width-1-6 uk-text-right">
-          <span v-if="customer != ''" uk-icon="icon: check; ratio: 2"></span>
+          <span
+            v-if="customer != ''"
+            uk-icon="icon: check; ratio: 2"
+            class="uk-text-success"
+          ></span>
         </div>
       </div>
     </div>

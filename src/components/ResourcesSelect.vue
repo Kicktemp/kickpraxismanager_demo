@@ -130,7 +130,11 @@ export default {
           </div>
         </div>
         <div class="uk-width-1-6 uk-text-right">
-          <span v-if="customer != ''" uk-icon="icon: check; ratio: 2"></span>
+          <span
+            v-if="customer != ''"
+            uk-icon="icon: check; ratio: 2"
+            class="uk-text-success"
+          ></span>
         </div>
       </div>
     </div>
@@ -178,7 +182,11 @@ export default {
           </select>
         </div>
         <div class="uk-width-1-6 uk-text-right">
-          <span v-if="resource != 0" uk-icon="icon: check; ratio: 2"></span>
+          <span
+            v-if="resource != 0"
+            uk-icon="icon: check; ratio: 2"
+            class="uk-text-success"
+          ></span>
         </div>
       </div>
     </div>
