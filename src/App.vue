@@ -33,7 +33,6 @@
         :resource="resource"
         v-model:loading="loading"
         v-model:showCustomer="showCustomer"
-        v-if="showCalendar"
       />
       <CustomerForm
         v-model:customerData="customerData"
