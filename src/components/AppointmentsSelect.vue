@@ -68,7 +68,7 @@ export default {
 </script>
 
 <template>
-  <div class="uk-margin" :class="{ 'uk-background-primary': appointment != 0 }">
+  <div class="uk-margin">
     <label class="uk-form-label" for="terminart"
       >Welche Terminart möchten Sie gerne in Anspruch nehmen?</label
     >
@@ -92,7 +92,11 @@ export default {
           </select>
         </div>
         <div class="uk-width-1-6 uk-text-right">
-          <span v-if="appointment != 0" uk-icon="icon: check; ratio: 2"></span>
+          <span
+            v-if="appointment != 0"
+            uk-icon="icon: check; ratio: 2"
+            class="uk-text-success"
+          ></span>
         </div>
       </div>
     </div>

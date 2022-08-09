@@ -97,10 +97,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="uk-margin"
-    :class="{ 'uk-background-primary': group != 0 && interest != 0 }"
-  >
+  <div class="uk-margin">
     <label class="uk-form-label" for="interesse-select"
       >Zu welcher Körperregion möchten Sie beraten werden und was ist Ihr
       Behandlungswunsch?</label
@@ -150,6 +147,7 @@ export default {
           <span
             v-if="group != 0 && interest != 0"
             uk-icon="icon: check; ratio: 2"
+            class="uk-text-success"
           ></span>
         </div>
       </div>

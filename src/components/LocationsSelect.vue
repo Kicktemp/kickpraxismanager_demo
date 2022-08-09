@@ -61,7 +61,7 @@ export default {
 </script>
 
 <template>
-  <div class="uk-margin" :class="{ 'uk-background-primary': location != 0 }">
+  <div class="uk-margin">
     <label class="uk-form-label" for="form-horizontal-select"
       >Standort wählen</label
     >
@@ -85,7 +85,11 @@ export default {
           </select>
         </div>
         <div class="uk-width-1-6 uk-text-right">
-          <span v-if="location != 0" uk-icon="icon: check; ratio: 2"></span>
+          <span
+            v-if="location != 0"
+            uk-icon="icon: check; ratio: 2"
+            class="uk-text-success"
+          ></span>
         </div>
       </div>
     </div>

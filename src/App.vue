@@ -26,12 +26,20 @@
         v-model:loading="loading"
         v-if="appointment !== '' && appointment != 0"
       />
+      <CalendarPicker
+        :location="location"
+        :interest="interest"
+        :appointment="appointment"
+        :resource="resource"
+        v-model:loading="loading"
+        v-model:showCustomer="showCustomer"
+        v-if="showCalendar"
+      />
       <CustomerForm
         v-model:customerData="customerData"
         :customer="customer"
-        v-if="customer !== ''"
+        v-if="customer !== '' && showCustomer"
       />
-      <CalendarPicker />
     </form>
     <table class="uk-table uk-table-divider uk-table-small uk-table-justify">
       <thead>
@@ -118,6 +126,7 @@ export default {
       location: 0,
       weightlocation: 0,
       showCalendar: false,
+      showCustomer: false,
       customer: "",
       group: 0,
       interest: 0,

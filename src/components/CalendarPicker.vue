@@ -42,27 +42,41 @@ export default {
         slots: {
           "2022-08-08": [
             {
-              start: 5,
-              end: 5,
+              from: "2010-04-21T09:00:00Z",
+              until: "2010-04-21T10:00:00Z",
+              duration: 60,
+              "resource-id": 23,
             },
             {
-              start: 15,
-              end: 15,
+              from: "2010-04-21T09:00:00Z",
+              until: "2010-04-21T10:00:00Z",
+              duration: 60,
+              "resource-id": 23,
             },
           ],
           "2022-08-09": [
             {
-              start: 15,
-              end: 16,
+              from: "2010-04-21T09:00:00Z",
+              until: "2010-04-21T10:00:00Z",
+              duration: 60,
+              "resource-id": 23,
             },
             {
-              start: 15,
-              end: 15,
+              from: "2010-04-21T09:00:00Z",
+              until: "2010-04-21T10:00:00Z",
+              duration: 60,
+              "resource-id": 23,
             },
           ],
         },
       },
     };
+  },
+  filters: {
+    formatDate(value) {
+      console.log(value);
+      return new Date(value);
+    },
   },
   methods: {
     onDayClick(day) {
@@ -80,7 +94,7 @@ export default {
 
 <style>
 .vc-day-content.is-disabled[role="button"] {
-  cursor: default;
+  cursor: not-allowed;
   text-decoration-line: line-through;
 }
 
