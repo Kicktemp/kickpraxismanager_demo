@@ -26,12 +26,12 @@
         v-model:loading="loading"
         v-if="appointment !== '' && appointment != 0"
       />
-      <MeetingSelector />
       <CustomerForm
         v-model:customerData="customerData"
         :customer="customer"
         v-if="customer !== ''"
       />
+      <CalendarPicker />
     </form>
     <table class="uk-table uk-table-divider uk-table-small uk-table-justify">
       <thead>
@@ -96,7 +96,7 @@ import InterestsSelect from "./components/InterestsSelect";
 import AppointmentsSelect from "./components/AppointmentsSelect";
 import ResourcesSelect from "./components/ResourcesSelect";
 import CustomerForm from "./components/CustomerForm";
-import MeetingSelector from "./components/MeetingSelector";
+import CalendarPicker from "./components/CalendarPicker";
 
 UIkit.use(Icons);
 
@@ -110,7 +110,7 @@ export default {
     AppointmentsSelect,
     ResourcesSelect,
     CustomerForm,
-    MeetingSelector,
+    CalendarPicker,
   },
 
   data: () => {

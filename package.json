@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "vue": "^3.2.13",
-    "vue-meeting-selector": "^2.0.0-beta-3"
+    "v-calendar": "^3.0.0-alpha.8",
+    "vue": "^3.2.13"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
