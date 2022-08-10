@@ -170,29 +170,42 @@ export default {
     <label class="uk-form-label"
       >Bitte wählen Sie Ihren gewünschten Behandler aus</label
     >
-    <div class="uk-child-width-1-4@m" uk-grid>
-      <div
-        v-for="resource in resources"
-        :key="resource.attributes.id"
-        :value="resource.attributes.id"
-      >
-        <div
-          class="uk-card uk-card-default uk-card-hover"
-          @mousedown="
-            $emit('update:showCalendar', true);
-            $emit('update:resource', resource.attributes.id);
-          "
-        >
-          <div class="uk-card-media-top">
-            <img
-              :src="resource.attributes.data.image"
-              :alt="resource.attributes.data.image_alt"
-            />
-          </div>
-          <div class="uk-card-body">
-            <h3 class="uk-card-title">{{ resource.attributes.data.title }}</h3>
+    <div class="uk-flex-middle" uk-grid>
+      <div class="uk-width-5-6">
+        <div class="uk-child-width-1-4@m" uk-grid>
+          <div
+            v-for="resource in resources"
+            :key="resource.attributes.id"
+            :value="resource.attributes.id"
+          >
+            <div
+              class="uk-card uk-card-default uk-card-hover"
+              @mousedown="
+                $emit('update:showCalendar', true);
+                $emit('update:resource', resource.attributes.id);
+              "
+            >
+              <div class="uk-card-media-top">
+                <img
+                  :src="resource.attributes.data.image"
+                  :alt="resource.attributes.data.image_alt"
+                />
+              </div>
+              <div class="uk-card-body">
+                <h3 class="uk-card-title">
+                  {{ resource.attributes.data.title }}
+                </h3>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+      <div class="uk-width-1-6 uk-text-right">
+        <span
+          v-if="resource != 0 && resource != ''"
+          uk-icon="icon: check; ratio: 2"
+          class="uk-text-success"
+        ></span>
       </div>
     </div>
   </div>
