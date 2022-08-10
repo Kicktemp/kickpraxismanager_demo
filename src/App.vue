@@ -166,6 +166,7 @@ export default {
       if (newInterest != oldInterest) {
         this.appointment = 0;
         this.resource = 0;
+        this.showCalendar = false;
       }
     },
   },
