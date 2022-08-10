@@ -61,7 +61,7 @@ export default {
 </script>
 
 <template>
-  <div class="uk-margin">
+  <div class="uk-margin uk-animation-slide-bottom-small">
     <label class="uk-form-label" for="form-horizontal-select"
       >Standort wählen</label
     >

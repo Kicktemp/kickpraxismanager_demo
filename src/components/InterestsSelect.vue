@@ -97,7 +97,7 @@ export default {
 </script>
 
 <template>
-  <div class="uk-margin">
+  <div class="uk-margin uk-animation-slide-bottom-small">
     <label class="uk-form-label" for="interesse-select"
       >Zu welcher Körperregion möchten Sie beraten werden und was ist Ihr
       Behandlungswunsch?</label
@@ -125,7 +125,7 @@ export default {
             </div>
             <div class="uk-width-1-2">
               <select
-                class="uk-select"
+                class="uk-select uk-animation-slide-bottom-small"
                 id="interesse-2-select"
                 v-model="interestSelected"
                 @input="$emit('update:interest', $event.target.value)"

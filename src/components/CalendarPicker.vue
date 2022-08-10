@@ -1,12 +1,16 @@
 <template>
-  <DatePicker
-    @dayclick="onDayClick"
-    is-expanded
-    :max-page="json['max-page']"
-    :min-page="json['min-page']"
-    :available-dates="json.available"
-  />
-  <div v-for="time in times" :key="time">{{ time.start }} - {{ time.end }}</div>
+  <div class="uk-animation-slide-bottom-small">
+    <DatePicker
+      @dayclick="onDayClick"
+      is-expanded
+      :max-page="json['max-page']"
+      :min-page="json['min-page']"
+      :available-dates="json.available"
+    />
+    <div v-for="time in times" :key="time">
+      {{ time.start }} - {{ time.end }}
+    </div>
+  </div>
 </template>
 
 <script>
