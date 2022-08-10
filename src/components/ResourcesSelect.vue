@@ -181,7 +181,7 @@ export default {
             :value="resource.attributes.id"
           >
             <div
-              class="uk-card uk-card-default uk-card-hover"
+              class="uk-card uk-card-small uk-card-default uk-card-hover"
               @mousedown="
                 $emit('update:showCalendar', true);
                 $emit('update:resource', resource.attributes.id);
@@ -194,7 +194,7 @@ export default {
                 />
               </div>
               <div class="uk-card-body">
-                <h3 class="uk-card-title">
+                <h3 class="uk-card-title uk-text-center">
                   {{ resource.attributes.data.title }}
                 </h3>
               </div>
