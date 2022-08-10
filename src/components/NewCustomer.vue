@@ -22,7 +22,8 @@ export default {
 </script>
 
 <template>
-  <div class="uk-margin">
+  <hr class="uk-animation-slide-bottom-small" />
+  <div class="uk-margin uk-animation-slide-bottom-small">
     <label class="uk-form-label"
       >Planen Sie Ihren ersten Besuch oder sind sie bereits Patient bei
       uns?</label

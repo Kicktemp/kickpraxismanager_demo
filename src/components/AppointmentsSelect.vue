@@ -68,6 +68,7 @@ export default {
 </script>
 
 <template>
+  <hr class="uk-animation-slide-bottom-small" />
   <div class="uk-margin uk-animation-slide-bottom-small">
     <label class="uk-form-label" for="terminart"
       >Welche Terminart möchten Sie gerne in Anspruch nehmen?</label

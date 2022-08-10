@@ -124,6 +124,7 @@ export default {
 </script>
 
 <template>
+  <hr class="uk-animation-slide-bottom-small" v-if="showNext" />
   <div class="uk-margin uk-animation-slide-bottom-small" v-if="showNext">
     <label class="uk-form-label" for="behandler-praeferenz"
       >Sollen wir Ihnen einen frühstmöglichen Termin ohne Behandlerpräferenz
@@ -166,6 +167,7 @@ export default {
       </div>
     </div>
   </div>
+  <hr class="uk-animation-slide-bottom-small" v-if="showDoctors" />
   <div class="uk-margin uk-animation-slide-bottom-small" v-if="showDoctors">
     <label class="uk-form-label"
       >Bitte wählen Sie Ihren gewünschten Behandler aus</label
