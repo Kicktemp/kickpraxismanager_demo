@@ -1,23 +1,25 @@
 <template>
-  <hr class="uk-animation-slide-bottom-small" />
-  <div class="uk-margin uk-animation-slide-bottom-small">
-    <label class="uk-form-label" for="terminart"
-      >Die nachfolgenden Termine können wir Ihnen basierend auf Ihren Wünschen
-      anbieten. Bitte wählen Sie Ihren Wunschtermin aus.</label
-    >
-    <div class="uk-grid-divider uk-grid-small" uk-grid>
-      <div class="uk-width-expand@m">
-        <DatePicker
-          @dayclick="onDayClick"
-          is-expanded
-          :max-page="json['max-page']"
-          :min-page="json['min-page']"
-          :available-dates="json.available"
-        />
-      </div>
-      <div class="uk-width-1-3">
-        <div v-for="time in times" :key="time">
-          {{ time.start }} - {{ time.end }}
+  <div>
+    <hr class="uk-animation-slide-bottom-small" />
+    <div class="uk-margin uk-animation-slide-bottom-small">
+      <label class="uk-form-label" for="terminart"
+        >Die nachfolgenden Termine können wir Ihnen basierend auf Ihren Wünschen
+        anbieten. Bitte wählen Sie Ihren Wunschtermin aus.</label
+      >
+      <div class="uk-grid-divider uk-grid-small" uk-grid>
+        <div class="uk-width-expand@m">
+          <DatePicker
+            @dayclick="onDayClick"
+            is-expanded
+            :max-page="json['max-page']"
+            :min-page="json['min-page']"
+            :available-dates="json.available"
+          />
+        </div>
+        <div class="uk-width-1-3">
+          <div v-for="time in times" :key="time">
+            {{ time.from }} - {{ time.until }}
+          </div>
         </div>
       </div>
     </div>

@@ -68,36 +68,38 @@ export default {
 </script>
 
 <template>
-  <hr class="uk-animation-slide-bottom-small" />
-  <div class="uk-margin uk-animation-slide-bottom-small">
-    <label class="uk-form-label" for="terminart"
-      >Welche Terminart möchten Sie gerne in Anspruch nehmen?</label
-    >
-    <div class="uk-form-controls">
-      <div class="uk-flex-middle" uk-grid>
-        <div class="uk-width-5-6">
-          <select
-            class="uk-select"
-            id="terminart"
-            v-model="appointmentSelected"
-            @input="$emit('update:appointment', $event.target.value)"
-          >
-            <option value="0">Bitte wählen</option>
-            <option
-              v-for="appointment in appointments"
-              :key="appointment.attributes.id"
-              :value="appointment.attributes.id"
+  <div>
+    <hr class="uk-animation-slide-bottom-small" />
+    <div class="uk-margin uk-animation-slide-bottom-small">
+      <label class="uk-form-label" for="terminart"
+        >Welche Terminart möchten Sie gerne in Anspruch nehmen?</label
+      >
+      <div class="uk-form-controls">
+        <div class="uk-flex-middle" uk-grid>
+          <div class="uk-width-5-6">
+            <select
+              class="uk-select"
+              id="terminart"
+              v-model="appointmentSelected"
+              @input="$emit('update:appointment', $event.target.value)"
             >
-              {{ appointment.attributes.name }}
-            </option>
-          </select>
-        </div>
-        <div class="uk-width-1-6 uk-text-right">
-          <span
-            v-if="appointment != 0"
-            uk-icon="icon: check; ratio: 2"
-            class="uk-text-success"
-          ></span>
+              <option value="0">Bitte wählen</option>
+              <option
+                v-for="appointment in appointments"
+                :key="appointment.attributes.id"
+                :value="appointment.attributes.id"
+              >
+                {{ appointment.attributes.name }}
+              </option>
+            </select>
+          </div>
+          <div class="uk-width-1-6 uk-text-right">
+            <span
+              v-if="appointment != 0"
+              uk-icon="icon: check; ratio: 2"
+              class="uk-text-success"
+            ></span>
+          </div>
         </div>
       </div>
     </div>
