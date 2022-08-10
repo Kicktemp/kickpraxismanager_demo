@@ -2,7 +2,7 @@
   <div class="uk-container">
     <form class="uk-form-stacked uk-margin-large">
       <LocationsSelect v-model:location="location" v-model:loading="loading" />
-      <NewCustomer v-model:customer="customer" v-if="location !== 0" />
+      <NewCustomer v-model:customer="customer" v-if="location != 0" />
       <InterestsSelect
         :location="location"
         v-model:group="group"
@@ -20,6 +20,7 @@
       <ResourcesSelect
         :location="location"
         :interest="interest"
+        :appointment="appointment"
         v-model:resource="resource"
         v-model:weightlocation="weightlocation"
         v-model:showCalendar="showCalendar"
@@ -33,6 +34,7 @@
         :resource="resource"
         v-model:loading="loading"
         v-model:showCustomer="showCustomer"
+        v-if="showCalendar"
       />
       <CustomerForm
         v-model:customerData="customerData"
@@ -165,6 +167,11 @@ export default {
       if (newInterest != oldInterest) {
         this.appointment = 0;
         this.resource = 0;
+        this.showCalendar = false;
+      }
+    },
+    appointment(newAppointment, oldAppointment) {
+      if (newAppointment != oldAppointment) {
         this.showCalendar = false;
       }
     },
