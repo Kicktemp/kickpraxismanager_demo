@@ -33,6 +33,9 @@
         :appointment="appointment"
         :resource="resource"
         v-model:loading="loading"
+        v-model:from="from"
+        v-model:until="until"
+        v-model:resourceId="resourceId"
         v-model:showCustomer="showCustomer"
         v-if="showCalendar"
       />
@@ -42,7 +45,10 @@
         v-if="customer !== '' && showCustomer"
       />
     </form>
-    <table class="uk-table uk-table-divider uk-table-small uk-table-justify">
+    <table
+      v-if="showTable"
+      class="uk-table uk-table-divider uk-table-small uk-table-justify"
+    >
       <thead>
         <tr>
           <th>Wert</th>
@@ -79,12 +85,20 @@
           <td>{{ customerData }}</td>
         </tr>
         <tr>
-          <td>Location</td>
-          <td>{{ location }}</td>
+          <td>showCustomer</td>
+          <td>{{ showCustomer }}</td>
         </tr>
         <tr>
-          <td>Location</td>
-          <td>{{ location }}</td>
+          <td>From</td>
+          <td>{{ from }}</td>
+        </tr>
+        <tr>
+          <td>Until</td>
+          <td>{{ until }}</td>
+        </tr>
+        <tr>
+          <td>Resource ID</td>
+          <td>{{ resourceId }}</td>
         </tr>
       </tbody>
     </table>
@@ -126,13 +140,17 @@ export default {
     return {
       location: 0,
       weightlocation: 0,
-      showCalendar: false,
+      showCalendar: true,
       showCustomer: false,
-      customer: "",
+      showTable: true,
+      customer: "new",
       group: 0,
       interest: 0,
       appointment: 0,
       resource: 0,
+      from: "",
+      until: "",
+      resourceId: 0,
       customerData: {
         firstname: "",
         lastname: "",
