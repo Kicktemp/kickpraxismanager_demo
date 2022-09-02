@@ -53,6 +53,22 @@ export default {
       type: String,
       default: "",
     },
+    resource: {
+      type: Number,
+      default: 0,
+    },
+    appointment: {
+      type: Number,
+      default: 0,
+    },
+    interest: {
+      type: Number,
+      default: 0,
+    },
+    location: {
+      type: Number,
+      default: 0,
+    },
     resourceId: {
       type: Number,
       default: 0,
@@ -64,218 +80,24 @@ export default {
       day: "",
       selectedTime: {},
       times: [],
-      json: {
-        "min-page": {
-          month: 8,
-          year: 2022,
-        },
-        "max-page": {
-          month: 11,
-          year: 2022,
-        },
-        available: [
-          {
-            start: "2022-08-09",
-            end: "2022-08-09",
-          },
-          {
-            start: "2022-08-18",
-            end: "2022-08-18",
-          },
-          {
-            start: "2022-08-08",
-            end: "2022-08-08",
-          },
-        ],
-        slots: {
-          "2022-08-08": [
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T12:00:00Z",
-              fromText: "12:00",
-              until: "2010-04-21T13:00:00Z",
-              untilText: "13:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T12:00:00Z",
-              fromText: "12:00",
-              until: "2010-04-21T13:00:00Z",
-              untilText: "13:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T12:00:00Z",
-              fromText: "12:00",
-              until: "2010-04-21T13:00:00Z",
-              untilText: "13:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T12:00:00Z",
-              fromText: "12:00",
-              until: "2010-04-21T13:00:00Z",
-              untilText: "13:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T12:00:00Z",
-              fromText: "12:00",
-              until: "2010-04-21T13:00:00Z",
-              untilText: "13:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T12:00:00Z",
-              fromText: "12:00",
-              until: "2010-04-21T13:00:00Z",
-              untilText: "13:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T12:00:00Z",
-              fromText: "12:00",
-              until: "2010-04-21T13:00:00Z",
-              untilText: "13:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T12:00:00Z",
-              fromText: "12:00",
-              until: "2010-04-21T13:00:00Z",
-              untilText: "13:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T12:00:00Z",
-              fromText: "12:00",
-              until: "2010-04-21T13:00:00Z",
-              untilText: "13:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T12:00:00Z",
-              fromText: "12:00",
-              until: "2010-04-21T13:00:00Z",
-              untilText: "13:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-          ],
-          "2022-08-09": [
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-            {
-              from: "2010-04-21T09:00:00Z",
-              fromText: "09:00",
-              until: "2010-04-21T10:00:00Z",
-              untilText: "10:00",
-              duration: 60,
-              "resource-id": 23,
-            },
-          ],
-        },
-      },
+      json: {},
     };
   },
   filters: {
     formatDate(value) {
       console.log(value);
       return new Date(value);
+    },
+  },
+  created() {
+    this.fetchSlots();
+  },
+  watch: {
+    resource(newResource, oldResource) {
+      console.log(newResource);
+      if (newResource != oldResource && newResource !== "") {
+        this.fetchSlots();
+      }
     },
   },
   methods: {
@@ -298,6 +120,30 @@ export default {
       this.$emit("update:from", time.from);
       this.$emit("update:until", time.until);
       this.$emit("update:resourceId", time["resource-id"]);
+    },
+    async fetchSlots() {
+      this.$emit("update:loading", true);
+      const url = `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_BASE_PATH}/kickpraxismanager/slots/0/0/${this.appointment}/${this.location}/${this.interest}/${this.resource}`;
+      fetch(url, {
+        headers: { "X-Joomla-Token": `${process.env.VUE_APP_JOOMLA_TOKEN}` },
+      })
+        .then(async (response) => {
+          const data = await response.json();
+
+          // check for error response
+          if (!response.ok) {
+            // get error message from body or default to response statusText
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+          }
+          this.json = data.data[0].attributes;
+          console.log(data.data[0].attributes);
+          this.$emit("update:loading", false);
+        })
+        .catch((error) => {
+          this.errorMessage = error;
+          console.error("There was an error!", error);
+        });
     },
   },
 };

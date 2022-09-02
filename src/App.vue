@@ -140,9 +140,9 @@ export default {
     return {
       location: 0,
       weightlocation: 0,
-      showCalendar: true,
+      showCalendar: false,
       showCustomer: false,
-      showTable: true,
+      showTable: false,
       customer: "new",
       group: 0,
       interest: 0,
@@ -179,6 +179,7 @@ export default {
       if (newCustomer != oldCustomer) {
         this.group = 0;
         this.interest = 0;
+        this.showCustomer = false;
       }
     },
     interest(newInterest, oldInterest) {
