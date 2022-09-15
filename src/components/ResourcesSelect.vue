@@ -1,4 +1,6 @@
 <script>
+import UIkit from "uikit";
+
 export default {
   name: "ResourcesSelect",
   props: {
@@ -87,6 +89,12 @@ export default {
           if (!response.ok) {
             // get error message from body or default to response statusText
             const error = (data && data.message) || response.statusText;
+            UIkit.notification({
+              message: "Zum Kontaktformular, weil keine Resource da sind.",
+              status: "primary",
+              pos: "top-right",
+              timeout: 5000,
+            });
             return Promise.reject(error);
           }
 

@@ -1,4 +1,5 @@
 <script>
+import UIkit from "uikit";
 export default {
   name: "CustomerForm",
   props: {
@@ -16,11 +17,14 @@ export default {
       locations: null,
     };
   },
+  created() {
+    UIkit.scroll("", { offset: 0 }).scrollTo(UIkit.util.$("div#customerForm"));
+  },
 };
 </script>
 
 <template>
-  <div class="uk-animation-slide-bottom-small">
+  <div class="uk-animation-slide-bottom-small" id="customerForm">
     <hr class="uk-animation-slide-bottom-small" />
     <p>Ihre persönlichen Daten</p>
     <div class="uk-margin">

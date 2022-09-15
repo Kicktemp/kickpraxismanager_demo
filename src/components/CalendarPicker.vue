@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="kickcalendar">
     <hr class="uk-animation-slide-bottom-small" />
     <div class="uk-margin uk-animation-slide-bottom-small">
       <label class="uk-form-label" for="terminart"
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import UIkit from "uikit";
+
 export default {
   props: {
     showCustomer: {
@@ -91,6 +93,12 @@ export default {
   },
   created() {
     this.fetchSlots();
+    UIkit.notification({
+      message: "my-message!",
+      status: "primary",
+      pos: "top-right",
+      timeout: 5000,
+    });
   },
   watch: {
     resource(newResource, oldResource) {
@@ -137,8 +145,10 @@ export default {
             return Promise.reject(error);
           }
           this.json = data.data[0].attributes;
-          console.log(data.data[0].attributes);
           this.$emit("update:loading", false);
+          UIkit.scroll("", { offset: 90 }).scrollTo(
+            UIkit.util.$("div#kickcalendar")
+          );
         })
         .catch((error) => {
           this.errorMessage = error;

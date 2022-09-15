@@ -1,4 +1,5 @@
 <script>
+import UIkit from "uikit";
 export default {
   name: "NewCustomer",
   props: {
@@ -18,12 +19,15 @@ export default {
       return this.location;
     },
   },
+  created() {
+    UIkit.scroll("", { offset: 0 }).scrollTo(UIkit.util.$("div#newCustomer"));
+  },
 };
 </script>
 
 <template>
   <hr class="uk-animation-slide-bottom-small" />
-  <div class="uk-margin uk-animation-slide-bottom-small">
+  <div class="uk-margin uk-animation-slide-bottom-small" id="newCustomer">
     <label class="uk-form-label"
       >Planen Sie Ihren ersten Besuch oder sind sie bereits Patient bei
       uns?</label
