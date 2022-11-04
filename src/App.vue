@@ -64,10 +64,6 @@
           <td>{{ customer }}</td>
         </tr>
         <tr>
-          <td>Group</td>
-          <td>{{ group }}</td>
-        </tr>
-        <tr>
           <td>Interest</td>
           <td>{{ interest }}</td>
         </tr>
