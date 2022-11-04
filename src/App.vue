@@ -143,7 +143,7 @@ export default {
     return {
       showCalendar: false,
       showCustomer: false,
-      showTable: false,
+      showTable: true,
       customer: "",
       group: 0,
       location: 0,
