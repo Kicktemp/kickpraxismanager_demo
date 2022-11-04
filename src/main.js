@@ -9,7 +9,7 @@ app.use(SetupCalendar, {
   transition: "sldie-h",
   locales: {
     de: {
-      firstDayOfWeek: 1,
+      firstDayOfWeek: 2,
       masks: {
         L: "YYYY-MM-DD",
       },
