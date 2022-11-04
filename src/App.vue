@@ -142,16 +142,16 @@ export default {
   data: () => {
     return {
       showCalendar: false,
-      showCustomer: true,
-      showTable: true,
-      /*customer: "",
+      showCustomer: false,
+      showTable: false,
+      customer: "",
       group: 0,
       location: 0,
-      interest: 0,*/
-      customer: "new",
+      interest: 0,
+      /*customer: "new",
       location: 9,
       group: 402,
-      interest: 1854,
+      interest: 1854,*/
       appointment: 0,
       resource: 0,
       from: "",
