@@ -3,15 +3,15 @@ export default {
   name: "AppointmentsSelect",
   props: {
     location: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     interest: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     appointment: {
-      type: Number,
+      type: [Number, Object],
       default: 0,
     },
     loading: Boolean,
@@ -19,7 +19,7 @@ export default {
   emits: ["update:appointment", "update:loading"],
   data: () => {
     return {
-      appointments: null,
+      appointments: [],
     };
   },
   created() {
@@ -28,19 +28,20 @@ export default {
   watch: {
     interest(newInterest, oldInterest) {
       if (newInterest != oldInterest && newInterest != 0) {
+        this.appointments = [];
         this.fetchAppointments();
       }
     },
-  },
-  computed: {
-    appointmentSelected() {
-      return this.appointment;
+    appointment(newAppointment, oldAppointment) {
+      if (newAppointment != oldAppointment && newAppointment != 0) {
+        this.$emit("update:appointment", this.appointment);
+      }
     },
   },
   methods: {
     async fetchAppointments() {
       this.$emit("update:loading", true);
-      const url = `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_BASE_PATH}/kickpraxismanager/appointments/${this.location}/${this.interest}`;
+      const url = `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_BASE_PATH}/kickpraxismanager/available-resources/0/0/${this.location}/${this.interest}/0`;
       fetch(url, {
         headers: { "X-Joomla-Token": `${process.env.VUE_APP_JOOMLA_TOKEN}` },
       })
@@ -55,6 +56,11 @@ export default {
           }
 
           this.appointments = data.data;
+
+          if (this.appointments.length == 1) {
+            this.$emit("update:appointment", this.appointments[0].attributes);
+          }
+
           this.$emit("update:loading", false);
         })
         .catch((error) => {
@@ -70,7 +76,16 @@ export default {
 <template>
   <div>
     <hr class="uk-animation-slide-bottom-small" />
-    <div class="uk-margin uk-animation-slide-bottom-small">
+    <div
+      v-if="appointments.length == 0 && !loading"
+      class="uk-margin uk-animation-slide-bottom-small"
+    >
+      Zum Kontakt
+    </div>
+    <div
+      v-if="appointments.length > 0"
+      class="uk-margin uk-animation-slide-bottom-small"
+    >
       <label class="uk-form-label" for="terminart"
         >Welche Terminart möchten Sie gerne in Anspruch nehmen?</label
       >
@@ -78,20 +93,27 @@ export default {
         <div class="uk-flex-middle" uk-grid>
           <div class="uk-width-5-6">
             <select
+              v-if="appointments.length > 1"
               class="uk-select"
               id="terminart"
-              v-model="appointmentSelected"
-              @input="$emit('update:appointment', $event.target.value)"
+              v-model="appointment"
             >
               <option value="0">Bitte wählen</option>
               <option
                 v-for="appointment in appointments"
                 :key="appointment.attributes.id"
-                :value="appointment.attributes.id"
+                :value="appointment.attributes"
               >
                 {{ appointment.attributes.name }}
               </option>
             </select>
+            <button
+              v-if="appointments.length == 1"
+              class="uk-button uk-button-primary"
+              type="button"
+            >
+              {{ appointments[0].attributes.name }}
+            </button>
           </div>
           <div class="uk-width-1-6 uk-text-right">
             <span

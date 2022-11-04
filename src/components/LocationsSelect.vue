@@ -3,7 +3,7 @@ export default {
   name: "LocationsSelect",
   props: {
     location: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     loading: Boolean,
@@ -13,11 +13,6 @@ export default {
     return {
       locations: null,
     };
-  },
-  computed: {
-    locationSelected() {
-      return this.location;
-    },
   },
   created() {
     this.init();
@@ -71,7 +66,7 @@ export default {
           <select
             class="uk-select"
             id="form-horizontal-select"
-            v-model="locationSelected"
+            :value="location"
             @input="$emit('update:location', $event.target.value)"
           >
             <option value="0">Standort wählen</option>

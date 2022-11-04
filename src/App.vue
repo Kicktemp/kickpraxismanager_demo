@@ -22,7 +22,6 @@
         :interest="interest"
         :appointment="appointment"
         v-model:resource="resource"
-        v-model:weightlocation="weightlocation"
         v-model:showCalendar="showCalendar"
         v-model:loading="loading"
         v-if="appointment !== '' && appointment != 0"
@@ -100,9 +99,13 @@
           <td>Resource ID</td>
           <td>{{ resourceId }}</td>
         </tr>
+        <tr>
+          <td>Loading</td>
+          <td>{{ loading }}</td>
+        </tr>
       </tbody>
     </table>
-    <div class="uk-overlay-primary uk-position-cover" v-if="loading">
+    <div class="uk-overlay-primary uk-position-cover uk-position-fixed" v-if="loading">
       <div class="uk-position-center">
         <span uk-spinner="ratio: 2"></span>
       </div>
@@ -138,14 +141,17 @@ export default {
 
   data: () => {
     return {
-      location: 0,
-      weightlocation: 0,
       showCalendar: false,
-      showCustomer: false,
-      showTable: false,
-      customer: "new",
+      showCustomer: true,
+      showTable: true,
+      /*customer: "",
       group: 0,
-      interest: 0,
+      location: 0,
+      interest: 0,*/
+      customer: "new",
+      location: 9,
+      group: 402,
+      interest: 1854,
       appointment: 0,
       resource: 0,
       from: "",

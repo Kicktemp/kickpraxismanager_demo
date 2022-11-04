@@ -56,11 +56,11 @@ export default {
       default: "",
     },
     resource: {
-      type: Number,
+      type: [Number, Object],
       default: 0,
     },
     appointment: {
-      type: Number,
+      type: [Number, Object],
       default: 0,
     },
     interest: {
@@ -93,16 +93,9 @@ export default {
   },
   created() {
     this.fetchSlots();
-    UIkit.notification({
-      message: "my-message!",
-      status: "primary",
-      pos: "top-right",
-      timeout: 5000,
-    });
   },
   watch: {
     resource(newResource, oldResource) {
-      console.log(newResource);
       if (newResource != oldResource && newResource !== "") {
         this.fetchSlots();
       }
@@ -131,7 +124,7 @@ export default {
     },
     async fetchSlots() {
       this.$emit("update:loading", true);
-      const url = `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_BASE_PATH}/kickpraxismanager/slots/0/0/${this.appointment}/${this.location}/${this.interest}/${this.resource}`;
+      const url = `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_BASE_PATH}/kickpraxismanager/slots/${this.resource.from}/${this.resource.until}/${this.resource.appointment}/${this.resource.location}/${this.resource.interest}/${this.resource.id}`;
       fetch(url, {
         headers: { "X-Joomla-Token": `${process.env.VUE_APP_JOOMLA_TOKEN}` },
       })

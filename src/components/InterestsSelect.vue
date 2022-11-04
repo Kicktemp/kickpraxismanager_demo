@@ -3,33 +3,31 @@ export default {
   name: "InterestsSelect",
   props: {
     location: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     group: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     interest: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     loading: Boolean,
   },
-  emits: ["update:groups", "update:interest", "update:loading"],
+  emits: ["update:group", "update:interest", "update:loading"],
   data: () => {
     return {
       groups: null,
       interests: null,
     };
   },
-  computed: {
-    groupSelected() {
-      return this.group;
-    },
-    interestSelected() {
-      return this.interest;
-    },
+  created() {
+    this.fetchGroups();
+    if (this.group != 0) {
+      this.fetchInterests();
+    }
   },
   watch: {
     location(newLocation, oldLocation) {
@@ -39,7 +37,7 @@ export default {
     },
     group(newGroup, oldGroup) {
       if (newGroup != oldGroup && newGroup != 0) {
-        this.fetchInterests();
+        this.fetchInterests(true);
       }
     },
   },
@@ -67,7 +65,7 @@ export default {
           console.error("There was an error!", error);
         });
     },
-    async fetchInterests() {
+    async fetchInterests(reset) {
       this.$emit("update:loading", true);
       const url = `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_BASE_PATH}/kickpraxismanager/interests/${this.location}/${this.group}`;
 
@@ -83,7 +81,9 @@ export default {
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
           }
-          this.$emit("update:interest", 0);
+          if (reset) {
+            this.$emit("update:interest", 0);
+          }
           this.interests = data.data;
           this.$emit("update:loading", false);
         })
@@ -112,7 +112,7 @@ export default {
                 <select
                   class="uk-select"
                   id="interesse-select"
-                  v-model="groupSelected"
+                  :value="group"
                   @input="$emit('update:group', $event.target.value)"
                 >
                   <option value="0">Bitte auswählen</option>
@@ -129,7 +129,7 @@ export default {
                 <select
                   class="uk-select uk-animation-slide-bottom-small"
                   id="interesse-2-select"
-                  v-model="interestSelected"
+                  :value="interest"
                   @input="$emit('update:interest', $event.target.value)"
                   v-show="group != 0"
                 >

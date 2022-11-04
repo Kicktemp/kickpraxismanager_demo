@@ -1,36 +1,29 @@
 <script>
-import UIkit from "uikit";
-
 export default {
   name: "ResourcesSelect",
   props: {
     location: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     appointment: {
-      type: Number,
-      default: 0,
+      type: [Number, Object],
     },
     interest: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     resource: {
-      type: Number,
+      type: [Number, Object],
       default: 0,
     },
     showCalendar: {
       type: Boolean,
       default: false,
     },
-    weightlocation: {
-      type: Number,
-      default: 0,
-    },
     loading: Boolean,
   },
-  emits: ["update:resource", "update:loading", "update:weightlocation"],
+  emits: ["update:resource", "update:loading", "update:showCalendar"],
   data: () => {
     return {
       resources: null,
@@ -56,12 +49,20 @@ export default {
         this.$emit("update:showCalendar", false);
         this.showDoctors = false;
         this.resourceType = "";
+        this.fetchResources();
       }
     },
     resourceType(newResource) {
       if (newResource == "early") {
         this.$emit("update:showCalendar", true);
-        this.$emit("update:resource", 0);
+        this.$emit("update:resource", {
+          id: 0,
+          location: this.appointment.resources[0].location,
+          interest: this.appointment.resources[0].interest,
+          appointment: this.appointment.resources[0].appointment,
+          from: this.appointment.resources[0].from,
+          until: this.appointment.resources[0].until,
+        });
         this.showDoctors = false;
       } else if (newResource == "doctors") {
         this.$emit("update:showCalendar", false);
@@ -70,14 +71,21 @@ export default {
       }
     },
   },
-  computed: {
-    resourceSelected() {
-      return this.resource;
-    },
-  },
   methods: {
     async fetchResources() {
       this.$emit("update:loading", true);
+      if (typeof this.appointment.resources[0].skip !== "undefined") {
+        this.$emit("update:resource", this.appointment.resources[0]);
+        this.$emit("update:showCalendar", true);
+        this.showDoctors = false;
+        this.showNext = false;
+      } else {
+        this.showNext = true;
+      }
+
+      this.$emit("update:loading", false);
+
+      /*
       const url = `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_BASE_PATH}/kickpraxismanager/resources/${this.location}/${this.interest}`;
       fetch(url, {
         headers: { "X-Joomla-Token": `${process.env.VUE_APP_JOOMLA_TOKEN}` },
@@ -126,6 +134,8 @@ export default {
           console.error("There was an error!", error);
           this.$emit("update:loading", false);
         });
+
+       */
     },
   },
 };
@@ -187,26 +197,26 @@ export default {
         <div class="uk-width-5-6">
           <div class="uk-child-width-1-4@m" uk-grid>
             <div
-              v-for="resource in resources"
-              :key="resource.attributes.id"
-              :value="resource.attributes.id"
+              v-for="resource in appointment.resources"
+              :key="resource.id"
+              :value="resource"
             >
               <div
                 class="uk-card uk-card-small uk-card-default uk-card-hover"
                 @mousedown="
                   $emit('update:showCalendar', true);
-                  $emit('update:resource', resource.attributes.id);
+                  $emit('update:resource', resource);
                 "
               >
                 <div class="uk-card-media-top">
                   <img
-                    :src="resource.attributes.data.image"
-                    :alt="resource.attributes.data.image_alt"
+                    :src="resource.data.image"
+                    :alt="resource.data.image_alt"
                   />
                 </div>
                 <div class="uk-card-body">
                   <h3 class="uk-card-title uk-text-center">
-                    {{ resource.attributes.data.title }}
+                    {{ resource.data.title }}
                   </h3>
                 </div>
               </div>

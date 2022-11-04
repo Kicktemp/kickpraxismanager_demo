@@ -15,10 +15,58 @@ export default {
   data: () => {
     return {
       locations: null,
+      customerErrors: {
+        firstname: "",
+        lastname: "",
+        email: "",
+        privacy: "",
+      },
+      customerValues: {
+        firstname: "",
+        lastname: "",
+        email: "",
+        privacy: false,
+        gender: 0,
+        birthday: "",
+        street: "",
+        no: "",
+        zip: "",
+        city: "",
+        phone: "",
+        mobile: "",
+        attention: 1,
+        newsletter: 0,
+      },
     };
   },
   created() {
-    UIkit.scroll("", { offset: 0 }).scrollTo(UIkit.util.$("div#customerForm"));
+    UIkit.scroll("", { offset: 90 }).scrollTo(UIkit.util.$("div#customerForm"));
+  },
+  watch: {
+    "customerValues.firstname"() {
+      this.$emit("update:customerData", this.customerValues);
+    },
+  },
+  methods: {
+    showNotification(message) {
+      UIkit.notification({
+        message: message,
+        timeout: 3000,
+        status: "danger",
+        pos: "top-left",
+      });
+    },
+    saveAppointment() {
+      if (
+        !this.customerValues.firstname.length &&
+        this.customerValues.firstname.length < 2
+      ) {
+        this.showNotification("Vorname fehlt");
+        this.customerErrors.firstname = false;
+      } else {
+        this.customerErrors.firstname = true;
+      }
+    },
   },
 };
 </script>
@@ -27,22 +75,54 @@ export default {
   <div class="uk-animation-slide-bottom-small" id="customerForm">
     <hr class="uk-animation-slide-bottom-small" />
     <p>Ihre persönlichen Daten</p>
+    {{ customerValues }}
+    {{ customerErrors }}
     <div class="uk-margin">
       <div uk-grid>
+        <div class="uk-width-1-5@m">
+          <div class="uk-form-controls">
+            <select
+              class="uk-select"
+              id="gender"
+              v-model="customerValues.gender"
+            >
+              <option value="0">Anrede auswählen</option>
+              <option value="1">Herr</option>
+              <option value="2">Frau</option>
+              <option value="3">Divers</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="uk-margin" uk-grid>
         <div
           :class="{
             'uk-width-1-2@m': customer == 'old',
             'uk-width-1-3@m': customer == 'new',
           }"
         >
-          <div class="uk-form-controls">
+          <div class="uk-form-controls uk-inline uk-display-block">
             <input
               class="el-input uk-input"
+              :class="{
+                'uk-form-danger': customerErrors.firstname === false,
+                'uk-form-success': customerErrors.firstname === true,
+              }"
               id="firstname"
               name="firstname"
               placeholder="Vorname *"
-              @input="$emit('update:customerData', $event.target.value)"
+              v-model="customerValues.firstname"
             />
+            <span
+              v-if="customerErrors.firstname == false"
+              class="uk-form-icon uk-form-icon-flip uk-icon uk-text-danger"
+              uk-icon="icon: close"
+            ></span>
+            <span
+              v-if="customerErrors.firstname == true"
+              class="uk-form-icon uk-form-icon-flip uk-icon uk-text-success"
+              uk-icon="icon: check"
+            ></span>
           </div>
         </div>
         <div
@@ -57,13 +137,13 @@ export default {
               id="lastname"
               name="lastname"
               placeholder="Nachname*"
-              @input="$emit('update:customerData', $event.target.value)"
+              v-model="customerValues.lastname"
             />
           </div>
         </div>
         <div class="uk-width-1-3@m" v-if="customer == 'new'">
           <div class="uk-form-controls">
-            <DatePicker v-model="date">
+            <DatePicker v-model="customerValues.birthday">
               <template v-slot="{ inputValue, togglePopover }">
                 <div class="uk-inline uk-width-1-1">
                   <a
@@ -93,6 +173,7 @@ export default {
             id="email"
             name="email"
             placeholder="E-Mail *"
+            v-model="customerValues.email"
           />
         </div>
       </div>
@@ -103,19 +184,20 @@ export default {
             id="mobile"
             name="mobile"
             placeholder="Handynummer *"
+            v-model="customerValues.mobile"
           />
         </div>
       </div>
     </div>
     <div class="uk-margin" uk-grid v-if="customer == 'new'">
       <div class="uk-width-2-3@m">
-        <div class="uk-form-controls">
+        <div class="uk-form-controls uk-inline uk-display-block">
           <input
             class="el-input uk-input"
             id="street"
             name="street"
             placeholder="Straße *"
-            @input="$emit('update:customerData', $event.target.value)"
+            v-model="customerValues.street"
           />
         </div>
       </div>
@@ -126,7 +208,7 @@ export default {
             id="no"
             name="no"
             placeholder="Hausnummer"
-            @input="$emit('update:customerData', $event.target.value)"
+            v-model="customerValues.no"
           />
         </div>
       </div>
@@ -139,7 +221,7 @@ export default {
             id="zip"
             name="zip"
             placeholder="PLZ *"
-            @input="$emit('update:customerData', $event.target.value)"
+            v-model="customerValues.zip"
           />
         </div>
       </div>
@@ -150,17 +232,31 @@ export default {
             id="city"
             name="city"
             placeholder="Ort"
-            @input="$emit('update:customerData', $event.target.value)"
+            v-model="customerValues.city"
           />
         </div>
       </div>
     </div>
     <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
       <label>
-        <input class="uk-checkbox" type="checkbox" /> Ich willige ein, dass
-        meine Angaben zur Kontaktaufnahme und Zuordnung für eventuelle
-        Rückfragen dauerhaft gespeichert werden. Die Datenschutzbestimmungen
-        habe ich zur Kenntnis genommen.
+        <input
+            class="uk-checkbox"
+            type="checkbox"
+            v-model="customerValues.newsletter"
+        />
+        Ich willige ein, dass ich regelmäßig einen Newsletter von S-thetic erhalte.
+      </label>
+    </div>
+    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+      <label>
+        <input
+          class="uk-checkbox"
+          type="checkbox"
+          v-model="customerValues.privacy"
+        />
+        Ich willige ein, dass meine Angaben zur Kontaktaufnahme und Zuordnung
+        für eventuelle Rückfragen dauerhaft gespeichert werden. Die
+        Datenschutzbestimmungen habe ich zur Kenntnis genommen.
       </label>
     </div>
     <div class="uk-margin">
@@ -171,6 +267,15 @@ export default {
           jederzeit mit Wirkung für die Zukunft widerrufen.</small
         >
       </p>
+    </div>
+    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+      <button
+        class="uk-button uk-button-primary"
+        type="button"
+        @mousedown="saveAppointment"
+      >
+        Absenden
+      </button>
     </div>
   </div>
 </template>
