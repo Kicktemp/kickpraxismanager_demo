@@ -2,6 +2,10 @@
 export default {
   name: "AppointmentsSelect",
   props: {
+    showContactForm: {
+      type: Boolean,
+      default: false,
+    },
     location: {
       type: [Number, String],
       default: 0,
@@ -41,6 +45,7 @@ export default {
   methods: {
     async fetchAppointments() {
       this.$emit("update:loading", true);
+      this.$emit("update:showContactForm", false);
       const url = `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_BASE_PATH}/kickpraxismanager/available-resources/0/0/${this.location}/${this.interest}/0`;
       fetch(url, {
         headers: { "X-Joomla-Token": `${process.env.VUE_APP_JOOMLA_TOKEN}` },
@@ -61,6 +66,10 @@ export default {
             this.$emit("update:appointment", this.appointments[0].attributes);
           }
 
+          if (this.appointments.length == 0) {
+            this.$emit("update:showContactForm", true);
+          }
+
           this.$emit("update:loading", false);
         })
         .catch((error) => {
@@ -77,12 +86,6 @@ export default {
   <div>
     <hr class="uk-animation-slide-bottom-small" />
     <div
-      v-if="appointments.length == 0 && !loading"
-      class="uk-margin uk-animation-slide-bottom-small"
-    >
-      Zum Kontakt
-    </div>
-    <div
       v-if="appointments.length > 0"
       class="uk-margin uk-animation-slide-bottom-small"
     >
@@ -96,15 +99,16 @@ export default {
               v-if="appointments.length > 1"
               class="uk-select"
               id="terminart"
-              v-model="appointment"
+              :value="appointment"
+              @input="$emit('update:appointment', $event.target.value)"
             >
               <option value="0">Bitte wählen</option>
               <option
-                v-for="appointment in appointments"
-                :key="appointment.attributes.id"
-                :value="appointment.attributes"
+                v-for="appointattr in appointments"
+                :key="appointattr.attributes.id"
+                :value="appointattr.attributes"
               >
-                {{ appointment.attributes.name }}
+                {{ appointattr.attributes.name }}
               </option>
             </select>
             <button

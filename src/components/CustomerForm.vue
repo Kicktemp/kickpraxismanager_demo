@@ -240,11 +240,12 @@ export default {
     <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
       <label>
         <input
-            class="uk-checkbox"
-            type="checkbox"
-            v-model="customerValues.newsletter"
+          class="uk-checkbox"
+          type="checkbox"
+          v-model="customerValues.newsletter"
         />
-        Ich willige ein, dass ich regelmäßig einen Newsletter von S-thetic erhalte.
+        Ich willige ein, dass ich regelmäßig einen Newsletter von S-thetic
+        erhalte.
       </label>
     </div>
     <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">

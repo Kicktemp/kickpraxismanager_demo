@@ -14,8 +14,17 @@
         :location="location"
         :interest="interest"
         v-model:appointment="appointment"
+        v-model:showContactForm="showContactForm"
         v-model:loading="loading"
         v-if="interest !== '' && interest != 0"
+      />
+      <ContactForm
+        :location="location"
+        :interest="interest"
+        :customer="customer"
+        v-model:customerData="customerData"
+        v-model:loading="loading"
+        v-if="showContactForm !== '' && showContactForm"
       />
       <ResourcesSelect
         :location="location"
@@ -101,7 +110,10 @@
         </tr>
       </tbody>
     </table>
-    <div class="uk-overlay-primary uk-position-cover uk-position-fixed" v-if="loading">
+    <div
+      class="uk-overlay-primary uk-position-cover uk-position-fixed"
+      v-if="loading"
+    >
       <div class="uk-position-center">
         <span uk-spinner="ratio: 2"></span>
       </div>
@@ -118,6 +130,7 @@ import InterestsSelect from "./components/InterestsSelect";
 import AppointmentsSelect from "./components/AppointmentsSelect";
 import ResourcesSelect from "./components/ResourcesSelect";
 import CustomerForm from "./components/CustomerForm";
+import ContactForm from "./components/ContactForm";
 import CalendarPicker from "./components/CalendarPicker";
 
 UIkit.use(Icons);
@@ -132,6 +145,7 @@ export default {
     AppointmentsSelect,
     ResourcesSelect,
     CustomerForm,
+    ContactForm,
     CalendarPicker,
   },
 
@@ -139,6 +153,7 @@ export default {
     return {
       showCalendar: false,
       showCustomer: false,
+      showContactForm: false,
       showTable: true,
       customer: "",
       group: 0,
