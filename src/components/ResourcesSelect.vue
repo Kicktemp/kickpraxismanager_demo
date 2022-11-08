@@ -84,58 +84,6 @@ export default {
       }
 
       this.$emit("update:loading", false);
-
-      /*
-      const url = `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_BASE_PATH}/kickpraxismanager/resources/${this.location}/${this.interest}`;
-      fetch(url, {
-        headers: { "X-Joomla-Token": `${process.env.VUE_APP_JOOMLA_TOKEN}` },
-      })
-        .then(async (response) => {
-          const data = await response.json();
-
-          // check for error response
-          if (!response.ok) {
-            // get error message from body or default to response statusText
-            const error = (data && data.message) || response.statusText;
-            UIkit.notification({
-              message: "Zum Kontaktformular, weil keine Resource da sind.",
-              status: "primary",
-              pos: "top-right",
-              timeout: 5000,
-            });
-            return Promise.reject(error);
-          }
-
-          this.resources = data.data;
-
-          if (this.resources[0] === undefined) {
-            this.$emit("update:showCalendar", true);
-            this.$emit("update:resource", 0);
-          } else {
-            if (this.resources[0].attributes.weightresource) {
-              this.$emit(
-                "update:weightlocation",
-                this.resources[0].attributes.weightresource
-              );
-              this.$emit("update:resource", this.resources[0].attributes.id);
-              this.$emit("update:showCalendar", true);
-            }
-
-            if (this.resources[0].attributes.doctor_id) {
-              this.showNext = true;
-            }
-          }
-
-          // haben wir keine Behandler oder
-          this.$emit("update:loading", false);
-        })
-        .catch((error) => {
-          this.errorMessage = error;
-          console.error("There was an error!", error);
-          this.$emit("update:loading", false);
-        });
-
-       */
     },
   },
 };
