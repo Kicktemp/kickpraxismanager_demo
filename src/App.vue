@@ -212,6 +212,15 @@ export default {
         this.resource = 0;
         this.showCalendar = false;
         this.showContactForm = false;
+        this.showCustomer = false;
+      }
+    },
+    resource(newInterest, oldInterest) {
+      if (newInterest != oldInterest) {
+        this.showCustomer = false;
+        this.from = "";
+        this.until = "";
+        this.resourceId = 0;
       }
     },
     appointment(newAppointment, oldAppointment) {
