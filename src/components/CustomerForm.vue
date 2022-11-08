@@ -45,6 +45,22 @@ export default {
         until: "",
         comment: "",
         location: null,
+        /*customer: {
+          firstname: "Max",
+          lastname: "Muster",
+          email: "hello@kicktemp.com",
+          privacy_accepted: 1,
+          gender: "1",
+          birthday: "1990-12-31",
+          street: "Musterstraße",
+          no: "42a",
+          zip: "45690",
+          city: "Musterstadt",
+          phone: "+49 1234 5678-90",
+          mobile: "+49 171 987654321",
+          attention: 1,
+          newsletter: false,
+        },*/
         customer: {
           firstname: "",
           lastname: "",
@@ -260,10 +276,10 @@ export default {
           <div class="uk-form-controls uk-inline uk-display-block">
             <input
               class="el-input uk-input"
-              id="phone2"
-              name="phone2"
+              id="mobile"
+              name="mobile"
               placeholder="Ihre Mobilnummer für Rückfragen."
-              v-model="appointment.customer.phone2"
+              v-model="appointment.customer.mobile"
             />
           </div>
         </div>
