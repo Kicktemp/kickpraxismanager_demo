@@ -1,5 +1,6 @@
 <script>
 import UIkit from "uikit";
+
 export default {
   name: "CustomerForm",
   props: {
@@ -7,65 +8,137 @@ export default {
       type: String,
       default: "",
     },
-    customerData: {
-      type: Object,
+    location: {
+      type: [Number, String],
+      default: "",
     },
+    interest: {
+      type: [Number, String],
+      default: "",
+    },
+    from: {
+      type: [Number, String],
+      default: "",
+    },
+    until: {
+      type: [Number, String],
+      default: "",
+    },
+    resource: {
+      type: [Number, String],
+      default: "",
+    },
+    appointment_type_id: {
+      type: [Number, Object],
+      default: 0,
+    },
+    loading: Boolean,
   },
   emits: ["update:customerData"],
   data: () => {
     return {
-      locations: null,
-      customerErrors: {
-        firstname: "",
-        lastname: "",
-        email: "",
-        privacy: "",
+      appointment: {
+        resource_id: null,
+        appointment_type_id: null,
+        from: "",
+        until: "",
+        comment: "",
+        location: null,
+        customer: {
+          firstname: "",
+          lastname: "",
+          email: "",
+          privacy_accepted: false,
+          gender: "",
+          birthday: "",
+          street: "",
+          no: "",
+          zip: "",
+          city: "",
+          phone: "",
+          mobile: "",
+          attention: 0,
+          newsletter: false,
+        },
+        interest_id: null,
+        utm_source: "",
+        utm_medium: "",
+        utm_campaign: "",
+        utm_term: "",
+        utm_content: "",
       },
-      customerValues: {
-        firstname: "",
-        lastname: "",
-        email: "",
-        privacy: false,
-        gender: 0,
-        birthday: "",
-        street: "",
-        no: "",
-        zip: "",
-        city: "",
-        phone: "",
-        mobile: "",
-        attention: 1,
-        newsletter: 0,
+      modelConfig: {
+        type: "string",
+        mask: "YYYY-MM-DD", // Uses 'iso' if missing
       },
     };
   },
   created() {
-    UIkit.scroll("", { offset: 90 }).scrollTo(UIkit.util.$("div#customerForm"));
-  },
-  watch: {
-    "customerValues.firstname"() {
-      this.$emit("update:customerData", this.customerValues);
-    },
+    setTimeout(function () {
+      UIkit.scroll("", { offset: 90 }).scrollTo(
+        UIkit.util.$("div#customerForm")
+      );
+    }, 200);
   },
   methods: {
-    showNotification(message) {
-      UIkit.notification({
-        message: message,
-        timeout: 3000,
-        status: "danger",
-        pos: "top-left",
-      });
-    },
-    saveAppointment() {
-      if (
-        !this.customerValues.firstname.length &&
-        this.customerValues.firstname.length < 2
-      ) {
-        this.showNotification("Vorname fehlt");
-        this.customerErrors.firstname = false;
-      } else {
-        this.customerErrors.firstname = true;
+    onSubmit(e) {
+      e.preventDefault();
+      this.appointment.location = this.location;
+      this.appointment.interest_id = this.interest;
+      this.appointment.appointment_type_id = this.appointment_type_id.id;
+      this.appointment.resource_id = this.resource;
+      this.appointment.from = this.from;
+      this.appointment.until = this.until;
+      var a = e.target,
+        self = this,
+        v = self.$parent.onSubmit(e);
+
+      if (!v) {
+        return false;
       }
+
+      // SEND CONTACT
+      this.$emit("update:loading", true);
+      const url = `${process.env.VUE_APP_API_URL}/${process.env.VUE_APP_BASE_PATH}/kickpraxismanager/request`;
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "X-Joomla-Token": `${process.env.VUE_APP_JOOMLA_TOKEN}`,
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify(this.appointment),
+      })
+        .then(async (response) => {
+          const data = await response.json();
+          const message = (data && data.message) || response.statusText;
+
+          if (!response.ok) {
+            UIkit.notification({
+              message: message,
+              timeout: 2000,
+              status: "danger",
+              pos: "top-left",
+            });
+            return Promise.reject(message);
+          }
+
+          this.$emit("update:loading", false);
+          a.reset();
+
+          UIkit.notification({
+            message: data.data.attributes.message,
+            timeout: 3000,
+            status: "success",
+            pos: "top-left",
+          });
+          setTimeout(function () {
+            window.location.href = data.data.attributes.redirect;
+          }, 4000);
+        })
+        .catch((error) => {
+          this.errorMessage = error;
+          console.error("There was an error!", error);
+        });
     },
   },
 };
@@ -75,208 +148,208 @@ export default {
   <div class="uk-animation-slide-bottom-small" id="customerForm">
     <hr class="uk-animation-slide-bottom-small" />
     <p>Ihre persönlichen Daten</p>
-    {{ customerValues }}
-    {{ customerErrors }}
-    <div class="uk-margin">
-      <div uk-grid>
-        <div class="uk-width-1-5@m">
-          <div class="uk-form-controls">
-            <select
-              class="uk-select"
-              id="gender"
-              v-model="customerValues.gender"
-            >
-              <option value="0">Anrede auswählen</option>
-              <option value="1">Herr</option>
-              <option value="2">Frau</option>
-              <option value="3">Divers</option>
-            </select>
+    <form class="uk-form uk-panel js-form-form" @submit="onSubmit" novalidate>
+      <div class="uk-margin">
+        <div uk-grid>
+          <div class="uk-width-1-5@m">
+            <div class="uk-form-controls uk-inline uk-display-block">
+              <select
+                class="el-select uk-select"
+                id="gender"
+                v-model="appointment.customer.gender"
+                data-message="Anrede"
+                required
+              >
+                <option value="">Anrede auswählen</option>
+                <option value="1">Herr</option>
+                <option value="2">Frau</option>
+                <option value="3">Divers</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="uk-margin" uk-grid>
+          <div
+            :class="{
+              'uk-width-1-2@m': customer == 'old',
+              'uk-width-1-3@m': customer == 'new',
+            }"
+          >
+            <div class="uk-form-controls uk-inline uk-display-block">
+              <input
+                class="el-input uk-input"
+                id="firstname"
+                name="firstname"
+                placeholder="Bitte geben Sie Ihren Vornamen ein. *"
+                v-model="appointment.customer.firstname"
+                data-message="Vorname"
+                required
+              />
+            </div>
+          </div>
+          <div
+            :class="{
+              'uk-width-1-2@m': customer == 'old',
+              'uk-width-1-3@m': customer == 'new',
+            }"
+          >
+            <div class="uk-form-controls uk-inline uk-display-block">
+              <input
+                class="el-input uk-input"
+                id="lastname"
+                name="lastname"
+                placeholder="Bitte geben Sie Ihren Nachnamen ein. *"
+                v-model="appointment.customer.lastname"
+                data-message="Nachname"
+                required
+              />
+            </div>
+          </div>
+          <div class="uk-width-1-3@m" v-if="customer == 'new'">
+            <div class="uk-form-controls uk-inline uk-display-block">
+              <DatePicker
+                v-model="appointment.customer.birthday"
+                :model-config="modelConfig"
+              >
+                <template v-slot="{ inputValue, togglePopover }">
+                  <div class="uk-inline uk-width-1-1">
+                    <a
+                      class="uk-form-icon"
+                      @click="togglePopover()"
+                      uk-icon="icon: calendar"
+                    ></a>
+                    <input
+                      type="text"
+                      :value="inputValue"
+                      class="uk-input"
+                      readonly
+                      placeholder="Bitte geben Sie Ihr Geburtsdatum ein. *"
+                      data-message="Geburtsdatum"
+                      required
+                    />
+                  </div>
+                </template>
+              </DatePicker>
+            </div>
           </div>
         </div>
       </div>
       <div class="uk-margin" uk-grid>
-        <div
-          :class="{
-            'uk-width-1-2@m': customer == 'old',
-            'uk-width-1-3@m': customer == 'new',
-          }"
-        >
+        <div class="uk-width-1-2@m">
           <div class="uk-form-controls uk-inline uk-display-block">
             <input
               class="el-input uk-input"
-              :class="{
-                'uk-form-danger': customerErrors.firstname === false,
-                'uk-form-success': customerErrors.firstname === true,
-              }"
-              id="firstname"
-              name="firstname"
-              placeholder="Vorname *"
-              v-model="customerValues.firstname"
+              id="email"
+              name="email"
+              placeholder="Bitte geben Sie Ihre E-Mail-Adresse ein. *"
+              data-message="E-Mail-Adresse"
+              v-model="appointment.customer.email"
+              required
+              type="email"
             />
-            <span
-              v-if="customerErrors.firstname == false"
-              class="uk-form-icon uk-form-icon-flip uk-icon uk-text-danger"
-              uk-icon="icon: close"
-            ></span>
-            <span
-              v-if="customerErrors.firstname == true"
-              class="uk-form-icon uk-form-icon-flip uk-icon uk-text-success"
-              uk-icon="icon: check"
-            ></span>
           </div>
         </div>
-        <div
-          :class="{
-            'uk-width-1-2@m': customer == 'old',
-            'uk-width-1-3@m': customer == 'new',
-          }"
-        >
-          <div class="uk-form-controls">
+        <div class="uk-width-1-2@m">
+          <div class="uk-form-controls uk-inline uk-display-block">
             <input
               class="el-input uk-input"
-              id="lastname"
-              name="lastname"
-              placeholder="Nachname*"
-              v-model="customerValues.lastname"
+              id="phone2"
+              name="phone2"
+              placeholder="Ihre Mobilnummer für Rückfragen."
+              v-model="appointment.customer.phone2"
             />
           </div>
         </div>
-        <div class="uk-width-1-3@m" v-if="customer == 'new'">
-          <div class="uk-form-controls">
-            <DatePicker v-model="customerValues.birthday">
-              <template v-slot="{ inputValue, togglePopover }">
-                <div class="uk-inline uk-width-1-1">
-                  <a
-                    class="uk-form-icon"
-                    @click="togglePopover()"
-                    uk-icon="icon: calendar"
-                  ></a>
-                  <input
-                    type="text"
-                    :value="inputValue"
-                    class="uk-input"
-                    readonly
-                    placeholder="Geburtsdatum"
-                  />
-                </div>
-              </template>
-            </DatePicker>
+      </div>
+      <div class="uk-margin" uk-grid v-if="customer == 'new'">
+        <div class="uk-width-2-3@m">
+          <div class="uk-form-controls uk-inline uk-display-block">
+            <input
+              class="el-input uk-input"
+              id="street"
+              name="street"
+              placeholder="Straße *"
+              v-model="appointment.customer.street"
+            />
+          </div>
+        </div>
+        <div class="uk-width-1-3@m">
+          <div class="uk-form-controls uk-inline uk-display-block">
+            <input
+              class="el-input uk-input"
+              id="no"
+              name="no"
+              placeholder="Hausnummer"
+              v-model="appointment.customer.no"
+            />
           </div>
         </div>
       </div>
-    </div>
-    <div class="uk-margin" uk-grid>
-      <div class="uk-width-1-2@m">
-        <div class="uk-form-controls">
-          <input
-            class="el-input uk-input"
-            id="email"
-            name="email"
-            placeholder="E-Mail *"
-            v-model="customerValues.email"
-          />
+      <div class="uk-margin" uk-grid v-if="customer == 'new'">
+        <div class="uk-width-1-3@m">
+          <div class="uk-form-controls uk-inline uk-display-block">
+            <input
+              class="el-input uk-input"
+              id="zip"
+              name="zip"
+              placeholder="PLZ *"
+              v-model="appointment.customer.zip"
+            />
+          </div>
+        </div>
+        <div class="uk-width-2-3@m">
+          <div class="uk-form-controls uk-inline uk-display-block">
+            <input
+              class="el-input uk-input"
+              id="city"
+              name="city"
+              placeholder="Ort"
+              v-model="appointment.customer.city"
+            />
+          </div>
         </div>
       </div>
-      <div class="uk-width-1-2@m">
-        <div class="uk-form-controls">
-          <input
-            class="el-input uk-input"
-            id="mobile"
-            name="mobile"
-            placeholder="Handynummer *"
-            v-model="customerValues.mobile"
+      <div class="uk-form-controls uk-inline uk-display-block">
+        <label class="uk-text-small"
+          ><input
+            class="uk-checkbox"
+            type="checkbox"
+            v-model="appointment.customer.newsletter"
           />
-        </div>
+          Ich willige ein, dass ich regelmäßig einen Newsletter von S-thetic
+          erhalte.
+        </label>
       </div>
-    </div>
-    <div class="uk-margin" uk-grid v-if="customer == 'new'">
-      <div class="uk-width-2-3@m">
-        <div class="uk-form-controls uk-inline uk-display-block">
-          <input
-            class="el-input uk-input"
-            id="street"
-            name="street"
-            placeholder="Straße *"
-            v-model="customerValues.street"
+      <div class="uk-form-controls uk-inline uk-display-block">
+        <label class="uk-text-small"
+          ><input
+            class="uk-checkbox"
+            type="checkbox"
+            v-model="appointment.customer.privacy_accepted"
+            data-message="Datenschutz"
+            required
           />
-        </div>
+          Ich willige ein, dass meine Angaben zur Kontaktaufnahme und Zuordnung
+          für eventuelle Rückfragen dauerhaft gespeichert werden. Die
+          <a href="/datenschutz">Datenschutzbestimmungen</a> habe ich zur
+          Kenntnis genommen.
+        </label>
       </div>
-      <div class="uk-width-1-3@m">
-        <div class="uk-form-controls">
-          <input
-            class="el-input uk-input"
-            id="no"
-            name="no"
-            placeholder="Hausnummer"
-            v-model="customerValues.no"
-          />
-        </div>
+      <div class="uk-margin">
+        <p>
+          <small
+            >Hinweis: Diese Einwilligung können Sie in einer E-Mail an
+            <a href="mailto:info@s-thetic.de" base="">info@s-thetic.de</a>
+            jederzeit mit Wirkung für die Zukunft widerrufen.</small
+          >
+        </p>
       </div>
-    </div>
-    <div class="uk-margin" uk-grid v-if="customer == 'new'">
-      <div class="uk-width-1-3@m">
-        <div class="uk-form-controls">
-          <input
-            class="el-input uk-input"
-            id="zip"
-            name="zip"
-            placeholder="PLZ *"
-            v-model="customerValues.zip"
-          />
-        </div>
+      <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+        <button class="el-button uk-button uk-button-primary" type="submit">
+          Absenden
+        </button>
       </div>
-      <div class="uk-width-2-3@m">
-        <div class="uk-form-controls">
-          <input
-            class="el-input uk-input"
-            id="city"
-            name="city"
-            placeholder="Ort"
-            v-model="customerValues.city"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-      <label>
-        <input
-          class="uk-checkbox"
-          type="checkbox"
-          v-model="customerValues.newsletter"
-        />
-        Ich willige ein, dass ich regelmäßig einen Newsletter von S-thetic
-        erhalte.
-      </label>
-    </div>
-    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-      <label>
-        <input
-          class="uk-checkbox"
-          type="checkbox"
-          v-model="customerValues.privacy"
-        />
-        Ich willige ein, dass meine Angaben zur Kontaktaufnahme und Zuordnung
-        für eventuelle Rückfragen dauerhaft gespeichert werden. Die
-        Datenschutzbestimmungen habe ich zur Kenntnis genommen.
-      </label>
-    </div>
-    <div class="uk-margin">
-      <p>
-        <small
-          >Hinweis: Diese Einwilligung können Sie in einer E-Mail an
-          <a href="mailto:info@s-thetic.de" base="">info@s-thetic.de</a>
-          jederzeit mit Wirkung für die Zukunft widerrufen.</small
-        >
-      </p>
-    </div>
-    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-      <button
-        class="uk-button uk-button-primary"
-        type="button"
-        @mousedown="saveAppointment"
-      >
-        Absenden
-      </button>
-    </div>
+    </form>
+    {{ appointment }}
   </div>
 </template>
