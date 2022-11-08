@@ -43,9 +43,9 @@ export default {
         appointment_type_id: null,
         from: "",
         until: "",
-        comment: "",
+        comment: "lorem",
         location: null,
-        /*customer: {
+        customer: {
           firstname: "Max",
           lastname: "Muster",
           email: "hello@kicktemp.com",
@@ -60,8 +60,8 @@ export default {
           mobile: "+49 171 987654321",
           attention: 1,
           newsletter: false,
-        },*/
-        customer: {
+        },
+        /*customer: {
           firstname: "",
           lastname: "",
           email: "",
@@ -76,7 +76,7 @@ export default {
           mobile: "",
           attention: 0,
           newsletter: false,
-        },
+        },*/
         interest_id: null,
         utm_source: "",
         utm_medium: "",
