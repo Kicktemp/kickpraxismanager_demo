@@ -99,16 +99,15 @@ export default {
               v-if="appointments.length > 1"
               class="uk-select"
               id="terminart"
-              :value="appointment"
-              @input="$emit('update:appointment', $event.target.value)"
+              v-model="appointment"
             >
               <option value="0">Bitte wählen</option>
               <option
-                v-for="appointattr in appointments"
-                :key="appointattr.attributes.id"
-                :value="appointattr.attributes"
+                v-for="appointment in appointments"
+                :key="appointment.attributes.id"
+                :value="appointment.attributes"
               >
-                {{ appointattr.attributes.name }}
+                {{ appointment.attributes.name }}
               </option>
             </select>
             <button
