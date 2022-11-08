@@ -14,6 +14,7 @@
             :max-page="json['max-page']"
             :min-page="json['min-page']"
             :available-dates="json.available"
+            :from-page="json['min-page']"
           />
         </div>
         <div class="uk-width-1-2">
