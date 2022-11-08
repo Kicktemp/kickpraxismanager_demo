@@ -55,6 +55,7 @@
         :from="from"
         :until="until"
         :customer="customer"
+        v-model:loading="loading"
         v-model:customerData="customerData"
         v-if="customer !== '' && showCustomer"
       />

@@ -37,6 +37,7 @@ export default {
   emits: ["update:customerData"],
   data: () => {
     return {
+      sending: false,
       appointment: {
         resource_id: null,
         appointment_type_id: null,
@@ -83,6 +84,10 @@ export default {
   methods: {
     onSubmit(e) {
       e.preventDefault();
+      if (this.sending) {
+        return false;
+      }
+      this.sending = true;
       this.appointment.location = this.location;
       this.appointment.interest_id = this.interest;
       this.appointment.appointment_type_id = this.appointment_type_id.id;
@@ -94,6 +99,7 @@ export default {
         v = self.$parent.onSubmit(e);
 
       if (!v) {
+        this.sending = false;
         return false;
       }
 
@@ -136,6 +142,7 @@ export default {
           }, 4000);
         })
         .catch((error) => {
+          this.sending = false;
           this.errorMessage = error;
           console.error("There was an error!", error);
         });
@@ -345,7 +352,15 @@ export default {
         </p>
       </div>
       <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-        <button class="el-button uk-button uk-button-primary" type="submit">
+        <button
+          class="el-button uk-button"
+          type="submit"
+          :class="{
+            'uk-disabled': sending,
+            'uk-button-primary': !sending,
+            'uk-button-danger': sending,
+          }"
+        >
           Absenden
         </button>
       </div>
