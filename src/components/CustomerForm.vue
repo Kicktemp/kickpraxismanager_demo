@@ -43,7 +43,7 @@ export default {
         appointment_type_id: null,
         from: "",
         until: "",
-        comment: "lorem",
+        comment: "",
         location: null,
         customer: {
           firstname: "Max",
